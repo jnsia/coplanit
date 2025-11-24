@@ -1,6 +1,7 @@
 import { router } from 'expo-router'
 import * as Notifications from 'expo-notifications'
 import { Alert, Platform } from 'react-native'
+import Constants from 'expo-constants'
 
 export async function sendPushNotification(
   to: string,
@@ -102,8 +103,9 @@ export async function registerForPushNotificationsAsync() {
 
   // 6. 토큰 발급 시도
   try {
+    const projectId = Constants.expoConfig?.extra?.eas?.projectId || Constants.expoConfig?.extra?.projectId
     const token = await Notifications.getExpoPushTokenAsync({
-      projectId: process.env.projectId, // 프로젝트 ID 필수
+      projectId, // 프로젝트 ID 필수
     })
     return token.data
   } catch (error) {

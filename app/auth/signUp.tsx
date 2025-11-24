@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
-import { fonts } from '@/constants/Fonts'
-import { colors } from '@/constants/Colors'
-import theme from '@/constants/Theme'
+import { fonts } from '@/constants/fonts'
+import { colors } from '@/constants/colors'
+import theme from '@/constants/theme'
 import { router } from 'expo-router'
 import { createClient } from '@supabase/supabase-js'
-import { supabase } from '@/utils/supabase'
+import { supabase } from '@/lib/supabase'
 
 const regex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
 

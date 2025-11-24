@@ -1,18 +1,17 @@
-import BannerAdvertisement from '@/components/advertisement/BannerAdvertisement'
-import Header from '@/components/common/Header'
-import { colors } from '@/constants/Colors'
-import theme from '@/constants/Theme'
 import { FontAwesome } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
-import { StatusBar, StyleSheet } from 'react-native'
+import { StatusBar } from 'react-native'
+import { useTheme } from '@/lib/ThemeProvider'
+import { colors as tokenColors } from '@/constants/tokens'
 
 export default function HomeLayout() {
+  const { theme, colors } = useTheme()
+
   return (
     <>
       <StatusBar
-        barStyle="light-content" // 상태바 아이콘을 밝게 표시 (아이콘 색상: 하얀색)
-        backgroundColor="#1c1f2a" // 상태바 배경색
-        // translucent={true}
+        barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
+        backgroundColor={colors.background.primary}
       />
       <Tabs
         screenOptions={({ route }) => ({
@@ -21,11 +20,9 @@ export default function HomeLayout() {
             let iconName: string = ''
 
             if (route.name === '(index)') {
-              iconName = 'clipboard'
+              iconName = 'check-square-o'
             } else if (route.name === 'love') {
-              iconName = 'heart'
-            } else if (route.name === 'coupon') {
-              iconName = 'ticket'
+              iconName = 'list'
             } else if (route.name === 'history') {
               iconName = 'history'
             } else if (route.name === '(setting)') {
@@ -34,61 +31,44 @@ export default function HomeLayout() {
             // @ts-expect-error
             return <FontAwesome name={iconName} size={size} color={color} />
           },
-          tabBarActiveTintColor: colors.accent,
-          tabBarInactiveTintColor: colors.lightGray,
+          tabBarActiveTintColor: tokenColors.foundation.primary,
+          tabBarInactiveTintColor: colors.text.tertiary,
           tabBarStyle: {
-            backgroundColor: colors.darkGray,
-            borderTopWidth: 0,
-            height: 64,
+            backgroundColor: colors.background.primary,
+            borderTopColor: colors.border.primary,
+            borderTopWidth: 1,
+            height: 60,
+            paddingBottom: 8,
+            paddingTop: 8,
           },
           tabBarLabelStyle: {
             fontSize: 10,
-            fontWeight: 'bold',
-          },
-          tabBarItemStyle: {
-            borderRadius: 10,
-            margin: 10,
+            fontWeight: '600',
           },
         })}
       >
         <Tabs.Screen
           name="(index)"
           options={{
-            title: '나의 미션',
-            headerShown: true,
-            header: () => <Header />,
+            title: '내 할일',
           }}
         />
         <Tabs.Screen
           name="love"
           options={{
-            title: '연인의 미션',
-            headerShown: true,
-            header: () => <Header />,
-          }}
-        />
-        <Tabs.Screen
-          name="coupon"
-          options={{
-            title: '쿠폰',
-            headerShown: true,
-            header: () => <Header />,
+            title: '전체',
           }}
         />
         <Tabs.Screen
           name="history"
           options={{
-            title: '기록',
-            headerShown: true,
-            header: () => <Header />,
+            title: '이력',
           }}
         />
         <Tabs.Screen
           name="(setting)"
           options={{
             title: '설정',
-            headerShown: true,
-            header: () => <Header />,
           }}
         />
       </Tabs>

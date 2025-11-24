@@ -1,13 +1,9 @@
-import { View, Text, StyleSheet, StatusBar } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
-import { Stack, Tabs } from 'expo-router'
-import theme from '@/constants/Theme'
-import useAuthStore from '@/stores/authStore'
-import { user } from '@/types/user'
+import { Stack } from 'expo-router'
+import theme from '@/constants/theme'
 
 export default function Authlayout() {
-  const user: user = useAuthStore((state: any) => state.user)
-
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: styles.container }}>
       <Stack.Screen name="signIn" />

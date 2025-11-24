@@ -1,169 +1,140 @@
-import { Alert, BackHandler, ScrollView, StyleSheet, View } from 'react-native'
-import { supabase } from '@/utils/supabase'
+import {
+  Alert,
+  BackHandler,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+} from 'react-native'
 import { useCallback, useState } from 'react'
-import { user } from '@/types/user'
-import useAuthStore from '@/stores/authStore'
-import { failedMission, mission } from '@/types/mission'
-import theme from '@/constants/Theme'
+import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useFocusEffect } from 'expo-router'
-import MissionInfoModal from '@/components/mission/MissionInfoModal'
-import GuideView from '@/components/coupon/GuideView'
-import FailedMissionInfoModal from '@/components/mission/FailedMissionInfoModal'
-import MissionButton from '@/components/mission/MissionButton'
-import CouponMissionButton from '@/components/mission/CouponMissionButton'
+import { useTheme } from '@/lib/ThemeProvider'
+import { spacing, fontSize } from '@/constants/tokens'
+import TaskCard from '@/components/molecules/TaskCard'
+import TaskDetailModal from '@/features/task/ui/TaskDetailModal'
+import type { Task } from '@/entities/task/model/task'
+import { getMyTasks, completeTask, cancelTask } from '@/entities/task/api/task'
+import { getUserById } from '@/entities/user/api/user.api'
+import type { user as UserType } from '@/entities/user/model/user'
 
 export default function HomeScreen() {
-  const [missions, setMissions] = useState<mission[]>([])
-  const [failedMissions, setFailedMissions] = useState<failedMission[]>([])
-  const [completedMissions, setCompletedMissions] = useState<mission[]>([])
-  const [isMissionInfoVisible, setIsMissionInfoVisible] = useState(false)
-  const [isFailedMissionInfoVisible, setIsFailedMissionInfoVisible] = useState(false)
-  const [selctedMissionId, setSelctedMissionId] = useState(0)
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null)
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [partner, setPartner] = useState<UserType | null>(null)
 
-  const user: user = useAuthStore((state: any) => state.user)
-  const getRecentUserInfo = useAuthStore((state: any) => state.getRecentUserInfo)
+  const { user } = useCurrentUser()
+  const { colors } = useTheme()
 
-  const closeMissionInfoModal = () => {
-    setIsMissionInfoVisible(false)
-  }
+  const fetchPartner = async () => {
+    if (!user?.partner_id) return
 
-  const closeFailedMissionInfoModal = () => {
     try {
-      failedMissions.forEach(async (failedMission) => {
-        await supabase.from('failedMissions').delete().eq('id', failedMission.id)
-      })
+      const partnerData = await getUserById(user.partner_id)
+      setPartner(partnerData)
     } catch (error) {
-      console.error(error)
-      return
+      console.error('Failed to fetch partner:', error)
     }
-
-    setFailedMissions([])
-    setIsFailedMissionInfoVisible(false)
   }
 
-  const clickMission = async (mission: mission) => {
-    setSelctedMissionId(mission.id)
-    setIsMissionInfoVisible(true)
-  }
+  const fetchTasks = async () => {
+    if (!user?.id) return
 
-  const getMissions = async () => {
     try {
-      const { data, error } = await supabase.from('missions').select().eq('userId', user.id)
-
-      if (error) {
-        console.error('index mission fetching fail:', error.message)
-        return
-      }
-
-      const missions: mission[] = []
-      const completedMissions: mission[] = []
-
-      data.forEach((mission: mission) => {
-        if (mission.completed) {
-          completedMissions.push(mission)
-        } else {
-          if (mission.type == 'coupon') {
-            missions.unshift(mission)
-          } else {
-            missions.push(mission)
-          }
-        }
-      })
-
-      setMissions(missions)
-      setCompletedMissions(completedMissions)
-    } catch (error: any) {
-      console.error('index mission fetching fail:', error.message)
+      setIsLoading(true)
+      const data = await getMyTasks(user.id)
+      setTasks(data)
+    } catch (error) {
+      console.error('Failed to fetch tasks:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const getFailedMissions = async () => {
-    const { data, error } = await supabase.from('failedMissions').select().eq('userId', user.id)
+  const handleTaskPress = (task: Task) => {
+    setSelectedTask(task)
+    setIsModalVisible(true)
+  }
 
-    if (error) {
-      console.error(error)
-      return
+  const handleComplete = async (taskId: number) => {
+    if (!user?.id) return
+
+    try {
+      await completeTask(taskId, user.id)
+      await fetchTasks()
+    } catch (error) {
+      console.error('Failed to complete task:', error)
+      Alert.alert('오류', '할일 완료에 실패했습니다.')
     }
+  }
 
-    if (data.length > 0) {
-      setFailedMissions(data)
-      setIsFailedMissionInfoVisible(true)
+  const handleCancel = async (taskId: number) => {
+    try {
+      await cancelTask(taskId)
+      await fetchTasks()
+    } catch (error) {
+      console.error('Failed to cancel task:', error)
+      Alert.alert('오류', '할일 취소에 실패했습니다.')
     }
   }
 
   useFocusEffect(
     useCallback(() => {
-      if (user == null) return
-      if (user.loveId == null) {
-        getRecentUserInfo(user.id)
-      }
-      getMissions()
-      getFailedMissions()
+      if (!user) return
+
+      fetchPartner()
+      fetchTasks()
 
       const backAction = () => {
         Alert.alert('앱을 종료하시겠습니까?', '', [
-          {
-            text: '아니요',
-            onPress: () => null,
-            style: 'cancel',
-          },
+          { text: '아니요', onPress: () => null, style: 'cancel' },
           { text: '예', onPress: () => BackHandler.exitApp() },
         ])
-
-        return true // true를 반환해야 기본 뒤로가기를 막음
+        return true
       }
 
       const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction)
-
-      return () => backHandler.remove() // 컴포넌트가 unmount 될 때 이벤트 리스너 제거
+      return () => backHandler.remove()
     }, [user]),
   )
 
   return (
-    <View style={styles.container}>
-      <GuideView
-        texts={['연인이 당신에게 할당한 미션입니다!', '어서 미션을 완료하여 코인를 획득하세요.']}
-      />
-      <ScrollView>
-        <View>
-          {missions.map((mission) => (
-            <View key={mission.id}>
-              {mission.type == 'coupon' ? (
-                <CouponMissionButton mission={mission} clickMission={() => clickMission(mission)} />
-              ) : (
-                <MissionButton mission={mission} clickMission={() => clickMission(mission)} />
-              )}
-              {selctedMissionId == mission.id && (
-                <MissionInfoModal
-                  getMissions={getMissions}
-                  isMissionInfoVisible={isMissionInfoVisible}
-                  mission={mission}
-                  closeMissionInfoModal={closeMissionInfoModal}
-                />
-              )}
-            </View>
-          ))}
+    <View style={[styles.container, { backgroundColor: colors.background.secondary }]}>
+      {isLoading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size='large' />
         </View>
-        <View>
-          {completedMissions.map((mission) => (
-            <View key={mission.id}>
-              <MissionButton mission={mission} clickMission={() => clickMission(mission)} />
-              {selctedMissionId == mission.id && (
-                <MissionInfoModal
-                  getMissions={getMissions}
-                  isMissionInfoVisible={isMissionInfoVisible}
-                  mission={mission}
-                  closeMissionInfoModal={closeMissionInfoModal}
-                />
-              )}
-            </View>
-          ))}
+      ) : tasks.length === 0 ? (
+        <View style={styles.empty}>
+          <Text style={[styles.emptyText, { color: colors.text.tertiary }]}>할일이 없습니다</Text>
         </View>
-      </ScrollView>
-      <FailedMissionInfoModal
-        failedMissions={failedMissions}
-        isFailedMissionInfoVisible={isFailedMissionInfoVisible}
-        closeFailedMissionInfoModal={closeFailedMissionInfoModal}
+      ) : (
+        <ScrollView contentContainerStyle={styles.list}>
+          {tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              title={task.title}
+              description={task.description}
+              dueDate={task.due_date}
+              assignedTo={task.assigned_to}
+              status={task.status}
+              onPress={() => handleTaskPress(task)}
+              myName={user?.nickname || '나'}
+              partnerName={partner?.nickname || '상대방'}
+            />
+          ))}
+        </ScrollView>
+      )}
+
+      <TaskDetailModal
+        visible={isModalVisible}
+        task={selectedTask}
+        onClose={() => setIsModalVisible(false)}
+        onComplete={handleComplete}
+        onCancel={handleCancel}
       />
     </View>
   )
@@ -172,13 +143,22 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    backgroundColor: theme.colors.background,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#FF6347',
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  empty: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: fontSize.lg,
+  },
+  list: {
+    padding: spacing.size16,
+    gap: spacing.size12,
   },
 })

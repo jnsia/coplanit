@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Alert, Animated, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
-import { colors } from '@/constants/Colors'
-import { fonts } from '@/constants/Fonts'
-import theme from '@/constants/Theme'
-import RegistButton from '@/components/common/RegistButton'
-import useAuthStore from '@/stores/authStore'
-import { supabase } from '@/utils/supabase'
-import { user } from '@/types/user'
+import { colors } from '@/constants/colors'
+import { fonts } from '@/constants/fonts'
+import theme from '@/constants/theme'
+import RegistButton from '@/components/atoms/RegistButton'
+import { useCurrentUser } from '@/features/auth/model/use-current-user'
+import { useSignOut } from '@/features/auth/model/auth-queries'
+import { supabase } from '@/lib/supabase'
+import { user } from '@/entities/user/model/user'
 import { sendPushNotification } from '@/lib/pushNotification'
 
 export default function ConnectScreen() {
@@ -15,14 +16,18 @@ export default function ConnectScreen() {
   const [generatedSecret, setgeneratedSecret] = useState('')
   const [animation] = useState(new Animated.Value(1))
 
-  const user: user = useAuthStore((state: any) => state.user)
-  const logout = useAuthStore((state: any) => state.logout)
+  const { user } = useCurrentUser()
+  const { mutate: signOut } = useSignOut()
 
   useEffect(() => {
     if (secret.length === 6) {
       handleCompleteSecret()
     }
   }, [secret])
+
+  if (!user) {
+    return null
+  }
 
   const handleFocus = () => {
     Animated.spring(animation, {
@@ -40,7 +45,7 @@ export default function ConnectScreen() {
     }).start()
   }
 
-  const clickGenerateButton = async () => {
+  const handleGenerateButton = async () => {
     const secret = Math.floor(100000 + Math.random() * 900000).toString()
 
     try {
@@ -53,7 +58,7 @@ export default function ConnectScreen() {
     setgeneratedSecret(secret)
   }
 
-  const clickCancleButton = async () => {
+  const handleCancelButton = async () => {
     try {
       await supabase.from('users').update({ secret: null }).eq('id', user.id)
     } catch (err) {
@@ -87,14 +92,6 @@ export default function ConnectScreen() {
         userId: love.id,
       })
 
-      await supabase
-      .from('loveCoupons')
-      .insert({ name: "뽀뽀 해줘!", description: "", price: 100, userId: user.id })
-
-      await supabase
-      .from('loveCoupons')
-      .insert({ name: "뽀뽀 해줘!", description: "", price: 100, userId: love.id })
-
       await sendPushNotification(
         love.fcmToken,
         '연인과 연결되었습니다.',
@@ -108,7 +105,7 @@ export default function ConnectScreen() {
     }
   }
 
-  const clickConnectButton = async () => {
+  const handleConnectButton = async () => {
     if (secret.length !== 6) return
 
     const { data, error } = await supabase.from('users').select().eq('secret', secret)
@@ -142,8 +139,10 @@ export default function ConnectScreen() {
     }
   }
 
-  const clickLogoutButton = async () => {
-    await logout(user.id)
+  const handleLogoutButton = () => {
+    if (user?.id) {
+      signOut(user.id)
+    }
   }
 
   const handleCompleteSecret = () => {
@@ -193,10 +192,10 @@ export default function ConnectScreen() {
             />
           </Animated.View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={clickGenerateButton}>
+            <TouchableOpacity style={styles.button} onPress={handleGenerateButton}>
               <Text style={styles.buttonText}>암호 생성</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={clickConnectButton}>
+            <TouchableOpacity style={styles.button} onPress={handleConnectButton}>
               <Text style={styles.buttonText}>암호 제출</Text>
             </TouchableOpacity>
           </View>
@@ -218,13 +217,13 @@ export default function ConnectScreen() {
             </View>
           </Animated.View>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={clickCancleButton}>
+            <TouchableOpacity style={styles.button} onPress={handleCancelButton}>
               <Text style={styles.buttonText}>생성 취소</Text>
             </TouchableOpacity>
           </View>
         </View>
       )}
-      <RegistButton text="다시 로그인하기" onPressEvent={clickLogoutButton} />
+      <RegistButton text="다시 로그인하기" onPress={handleLogoutButton} />
     </View>
   )
 }

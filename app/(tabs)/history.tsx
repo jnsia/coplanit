@@ -1,153 +1,122 @@
-import React, { useCallback, useState } from 'react'
-import { StyleSheet, Text, View, Dimensions, ScrollView, TouchableOpacity } from 'react-native'
+import { useCallback, useState } from 'react'
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
+import { useFocusEffect } from 'expo-router'
+import { useCurrentUser } from '@/features/auth/model/use-current-user'
+import { useTheme } from '@/lib/ThemeProvider'
+import { spacing, fontSize } from '@/constants/tokens'
+import Card from '@/components/atoms/Card'
+import Badge from '@/components/atoms/Badge'
+import { getTasks } from '@/entities/task/api/task'
+import type { Task } from '@/entities/task/model/task'
 
-import { useFocusEffect } from '@react-navigation/native'
-import theme from '@/constants/Theme'
-import { user } from '@/types/user'
-import useAuthStore from '@/stores/authStore'
-import HistoryTabs from '@/components/history/HistoryTabs'
-import { supabase } from '@/utils/supabase'
-import { fonts } from '@/constants/Fonts'
-import HistoryInfoModal from '@/components/history/HistoryInfoModal'
+const actionLabels = {
+  completed: '완료됨',
+  cancelled: '취소됨',
+}
 
-export default function History() {
-  const [page, setPage] = useState('missions')
-  // const [type, setType] = useState('전체')
-  const [isModalVisible, setIsModalVisible] = useState(false)
-  const [selectedHistoryId, setSelctedHistoryId] = useState(0)
-  const [histories, setHistories] = useState<history[]>([])
+export default function HistoryScreen() {
+  const [completedTasks, setCompletedTasks] = useState<Task[]>([])
+  const [cancelledTasks, setCancelledTasks] = useState<Task[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  const user: user = useAuthStore((state: any) => state.user)
+  const { user } = useCurrentUser()
+  const { colors } = useTheme()
 
-  const getHistories = async () => {
-    const { data, error } = await supabase
-      .from('histories')
-      .select()
-      .eq('userId', user.id)
-      .order('createdAt', { ascending: false })
+  const fetchHistory = async () => {
+    if (!user?.id) return
 
-    if (error) {
-      console.error('히스토리 조회 중 에러')
-      return
+    try {
+      setIsLoading(true)
+      const data = await getTasks()
+
+      const completed = data.filter((task) => task.status === 'completed')
+      const cancelled = data.filter((task) => task.status === 'cancelled')
+
+      setCompletedTasks(completed)
+      setCancelledTasks(cancelled)
+    } catch (error) {
+      console.error('Failed to fetch history:', error)
+    } finally {
+      setIsLoading(false)
     }
-
-    setHistories(data)
-  }
-
-  const clickHistory = (historyId: number) => {
-    setIsModalVisible(true)
-    setSelctedHistoryId(historyId)
-  }
-
-  const closeModal = () => {
-    setIsModalVisible(false)
   }
 
   useFocusEffect(
     useCallback(() => {
-      getHistories()
-    }, []),
+      if (!user) return
+      fetchHistory()
+    }, [user]),
   )
 
   return (
-    <View style={styles.container}>
-      <HistoryTabs page={page} setPage={setPage} />
-      {/* <View>
-        {page ? (
-          <View style={styles.typeSelectBox}>
-            <TouchableOpacity
-              style={type === '전체' ? styles.typeActiveBtn : styles.typeBtn}
-              onPress={() => setType('전체')}
-            >
-              <Text style={type === '전체' ? styles.activeText : styles.text}>전체</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={type === '획득' ? styles.typeActiveBtn : styles.typeBtn}
-              onPress={() => setType('적립')}
-            >
-              <Text style={type === '적립' ? styles.activeText : styles.text}>적립</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={type === '차감' ? styles.typeActiveBtn : styles.typeBtn}
-              onPress={() => setType('출금')}
-            >
-              <Text style={type === '출금' ? styles.activeText : styles.text}>출금</Text>
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={styles.typeSelectBox}>
-            <TouchableOpacity
-              style={type === '전체' ? styles.typeActiveBtn : styles.typeBtn}
-              onPress={() => setType('전체')}
-            >
-              <Text style={type === '전체' ? styles.activeText : styles.text}>전체</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={type === '획득' ? styles.typeActiveBtn : styles.typeBtn}
-              onPress={() => setType('적립')}
-            >
-              <Text style={type === '적립' ? styles.activeText : styles.text}>적립</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={type === '차감' ? styles.typeActiveBtn : styles.typeBtn}
-              onPress={() => setType('출금')}
-            >
-              <Text style={type === '출금' ? styles.activeText : styles.text}>출금</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View> */}
-      <ScrollView style={styles.missionsBox}>
-        {page === 'missions' && (
-          <View>
-            {histories.map((history) => (
-              <TouchableOpacity
-                key={history.id}
-                style={styles.item}
-                onPress={() => clickHistory(history.id)}
-              >
-                <Text style={styles.itemText}>{history.record}</Text>
-                <Text style={styles.itemSubText}>{history.date}</Text>
-                {selectedHistoryId == history.id && (
-                  <HistoryInfoModal
-                    isModalVisible={isModalVisible}
-                    closeModal={closeModal}
-                    history={history}
-                  />
-                )}
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
-        {page === 'coins' && (
-          <View>
-            {histories.map((history) => (
-              <TouchableOpacity
-                key={history.id}
-                style={styles.coinItem}
-                onPress={() => clickHistory(history.id)}
-              >
-                <View style={{ flex: 1, gap: 4, flexWrap: 'nowrap', marginRight: 12 }}>
-                  <Text style={styles.itemText} numberOfLines={1}>
-                    {history.record}
+    <View style={[styles.container, { backgroundColor: colors.background.secondary }]}>
+      {isLoading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" />
+        </View>
+      ) : (
+        <ScrollView contentContainerStyle={styles.list}>
+          {/* 완료된 할일 */}
+          {completedTasks.length > 0 && (
+            <View style={styles.section}>
+              <Text style={[styles.sectionTitle, { color: colors.text.primary }]}>완료된 할일</Text>
+              {completedTasks.map((task) => (
+                <Card key={task.id}>
+                  <View style={styles.header}>
+                    <Text style={[styles.title, { color: colors.text.primary }]} numberOfLines={1}>
+                      {task.title}
+                    </Text>
+                    <Badge label={actionLabels.completed} variant="completed" />
+                  </View>
+                  {task.completed_at && (
+                    <Text style={[styles.date, { color: colors.text.tertiary }]}>
+                      {new Date(task.completed_at).toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </Text>
+                  )}
+                </Card>
+              ))}
+            </View>
+          )}
+
+          {/* 취소된 할일 */}
+          {cancelledTasks.length > 0 && (
+            <View style={styles.section}>
+              <Text style={[styles.sectionTitle, { color: colors.text.primary }]}>취소된 할일</Text>
+              {cancelledTasks.map((task) => (
+                <Card key={task.id}>
+                  <View style={styles.header}>
+                    <Text style={[styles.title, { color: colors.text.primary }]} numberOfLines={1}>
+                      {task.title}
+                    </Text>
+                    <Badge label={actionLabels.cancelled} variant="cancelled" />
+                  </View>
+                  <Text style={[styles.date, { color: colors.text.tertiary }]}>
+                    {new Date(task.updated_at).toLocaleDateString('ko-KR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </Text>
-                  <Text style={styles.itemSubText}>{history.date}</Text>
-                </View>
-                <Text style={styles.itemText}>
-                  {history.coin > 0 ? `+${history.coin}` : history.coin} Coin
-                </Text>
-                {selectedHistoryId == history.id && (
-                  <HistoryInfoModal
-                    isModalVisible={isModalVisible}
-                    closeModal={closeModal}
-                    history={history}
-                  />
-                )}
-              </TouchableOpacity>
-            ))}
-          </View>
-        )}
-      </ScrollView>
+                </Card>
+              ))}
+            </View>
+          )}
+
+          {completedTasks.length === 0 && cancelledTasks.length === 0 && (
+            <View style={styles.empty}>
+              <Text style={[styles.emptyText, { color: colors.text.tertiary }]}>이력이 없습니다</Text>
+            </View>
+          )}
+        </ScrollView>
+      )}
     </View>
   )
 }
@@ -155,73 +124,44 @@ export default function History() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
-    backgroundColor: theme.colors.background,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  list: {
+    padding: spacing.size16,
+    gap: spacing.size16,
+  },
+  section: {
+    gap: spacing.size12,
+  },
+  sectionTitle: {
+    fontSize: fontSize.lg,
+    fontWeight: '700',
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    borderBottomWidth: 1,
-    borderColor: 'gray',
-  },
-  missionsBox: {
-    marginTop: 16,
-  },
-  text: {
-    color: 'white',
-    fontSize: 12,
-    fontFamily: fonts.default,
-  },
-  activeText: {
-    color: '#FFC500',
-    fontSize: 12,
-    fontFamily: fonts.default,
-  },
-  typeSelectBox: {
-    flexDirection: 'row',
-    paddingVertical: 20,
-  },
-  typeBtn: {
-    borderWidth: 0.5,
-    borderColor: 'white',
-    marginHorizontal: 5,
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    borderRadius: 20,
-  },
-  typeActiveBtn: {
-    borderWidth: 0.5,
-    borderColor: '#FFC500',
-    marginHorizontal: 5,
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    borderRadius: 20,
-  },
-  item: {
-    overflow: 'hidden',
-    padding: 16,
-    backgroundColor: theme.colors.button,
-    borderRadius: 8,
-    marginBottom: 8,
-    gap: 4,
-  },
-  coinItem: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: spacing.size8,
+  },
+  title: {
+    flex: 1,
+    fontSize: fontSize.base,
+    fontWeight: '600',
+    marginRight: spacing.size8,
+  },
+  date: {
+    fontSize: fontSize.xs,
+  },
+  empty: {
+    paddingVertical: spacing.size64,
+    justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: theme.colors.button,
-    borderRadius: 8,
-    marginBottom: 8,
   },
-  itemText: {
-    fontSize: fonts.size.body,
-    color: theme.colors.text,
-    fontFamily: fonts.default,
-  },
-  itemSubText: {
-    fontSize: 12,
-    color: '#cccccc',
-    fontFamily: fonts.default,
+  emptyText: {
+    fontSize: fontSize.lg,
   },
 })

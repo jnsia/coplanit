@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Animated } from 'react-native'
 import React, { useState } from 'react'
-import { colors } from '@/constants/Colors'
-import theme from '@/constants/Theme'
-import { user } from '@/types/user'
-import useAuthStore from '@/stores/authStore'
+import { colors } from '@/constants/colors'
+import theme from '@/constants/theme'
+import { useSignIn } from '@/features/auth/model/auth-queries'
 import { router } from 'expo-router'
-import { fonts } from '@/constants/Fonts'
+import { fonts } from '@/constants/fonts'
+import type { user } from '@/entities/user/model/user'
 
 export default function SignInScreen() {
   const [email, setEmail] = useState('')
@@ -14,7 +14,7 @@ export default function SignInScreen() {
   const [eamilInputAnimation] = useState(new Animated.Value(1))
   const [passwordInputAnimation] = useState(new Animated.Value(1))
 
-  const signIn = useAuthStore((state: any) => state.signIn)
+  const { mutateAsync: signIn, isPending } = useSignIn()
 
   const handleEmailInputFocus = () => {
     Animated.spring(eamilInputAnimation, {
@@ -57,7 +57,7 @@ export default function SignInScreen() {
       return Alert.alert('비밀번호를 입력해 주세요.')
     }
 
-    const userInfo: user = await signIn(email, password)
+    const userInfo: user | null = await signIn({ email, password })
 
     if (userInfo == null) {
       return Alert.alert('가입된 회원이 아니거나 비밀번호가 틀립니다.')

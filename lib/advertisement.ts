@@ -1,5 +1,5 @@
-import { user } from '@/types/user'
-import { supabase } from '@/utils/supabase'
+import { user } from '@/entities/user/model/user'
+import { supabase } from '@/lib/supabase'
 import { Alert } from 'react-native'
 import MobileAds, {
   MaxAdContentRating,

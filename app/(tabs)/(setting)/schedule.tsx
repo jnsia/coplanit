@@ -1,19 +1,19 @@
-import MissionInfoModal from '@/components/mission/MissionInfoModal'
-import RegistButton from '@/components/common/RegistButton'
-import theme from '@/constants/Theme'
-import useAuthStore from '@/stores/authStore'
-import { mission } from '@/types/mission'
-import { user } from '@/types/user'
-import { supabase } from '@/utils/supabase'
+import MissionInfoModal from '@/features/mission/ui/MissionInfoModal'
+import RegistButton from '@/components/atoms/RegistButton'
+import theme from '@/constants/theme'
+import { useCurrentUser } from '@/features/auth/model/use-current-user'
+import { useLoveFcmToken } from '@/features/auth/model/auth-queries'
+import { mission } from '@/entities/mission/model/mission'
+import { user } from '@/entities/user/model/user'
+import { supabase } from '@/lib/supabase'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import { fonts } from '@/constants/Fonts'
-import { colors } from '@/constants/Colors'
-import GuideView from '@/components/coupon/GuideView'
-import ScheduledMissionRegistModal from '@/components/mission/ScheduledMissionRegistModal'
-import ScheduledMissionInfoModal from '@/components/mission/ScheduledMissionInfoModal'
-import CloseButton from '@/components/common/CloseButton'
+import { fonts } from '@/constants/fonts'
+import { colors } from '@/constants/colors'
+import ScheduledMissionRegistModal from '@/features/mission/ui/ScheduledMissionRegistModal'
+import ScheduledMissionInfoModal from '@/features/mission/ui/ScheduledMissionInfoModal'
+import CloseButton from '@/components/atoms/CloseButton'
 
 export default function ScheduleScreen() {
   const [missions, setMissions] = useState<mission[]>([])
@@ -22,10 +22,12 @@ export default function ScheduleScreen() {
   const [isMissionInfoVisible, setIsMissionInfoVisible] = useState(false)
   const [selctedMissionId, setSelctedMissionId] = useState(0)
 
-  const user: user = useAuthStore((state: any) => state.user)
-  const loveFcmToken: string = useAuthStore((state: any) => state.loveFcmToken)
+  const { user } = useCurrentUser()
+  const { data: loveFcmToken } = useLoveFcmToken(user?.loveId)
 
   const getMissions = async () => {
+    if (!user?.loveId) return
+
     const { data, error } = await supabase
       .from('scheduledMissions')
       .select()
@@ -51,7 +53,7 @@ export default function ScheduleScreen() {
     setCompletedMissions(completedMissions)
   }
 
-  const clickMission = (mission: mission) => {
+  const handleMissionPress = (mission: mission) => {
     setSelctedMissionId(mission.id)
     setIsMissionInfoVisible(true)
   }
@@ -74,13 +76,16 @@ export default function ScheduleScreen() {
     }, []),
   )
 
+  if (!user) {
+    return null
+  }
+
   return (
     <View style={styles.container}>
-      <GuideView texts={['연인의 일일 미션을 관리할 수 있습니다.']} />
       <ScrollView>
         {completedMissions.map((mission: mission) => (
           <View key={mission.id}>
-            <TouchableOpacity style={styles.completedItem} onPress={() => clickMission(mission)}>
+            <TouchableOpacity style={styles.completedItem} onPress={() => handleMissionPress(mission)}>
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>쿠폰</Text>
               </View>
@@ -100,7 +105,7 @@ export default function ScheduleScreen() {
         ))}
         {missions.map((mission) => (
           <View key={mission.id}>
-            <TouchableOpacity style={styles.item} onPress={() => clickMission(mission)}>
+            <TouchableOpacity style={styles.item} onPress={() => handleMissionPress(mission)}>
               <Text style={styles.itemText} numberOfLines={1}>
                 {mission.title}
               </Text>
@@ -122,8 +127,8 @@ export default function ScheduleScreen() {
         closeModal={closeModal}
       />
       <View style={{ marginBottom: 10 }}>
-        <RegistButton text="일일 미션 예약하기" onPressEvent={openModal} />
-        <CloseButton text="닫기" onPressEvent={() => router.back()} />
+        <RegistButton text="일일 미션 예약하기" onPress={openModal} />
+        <CloseButton text="닫기" onPress={() => router.back()} />
       </View>
     </View>
   )

@@ -1,5 +1,5 @@
 // styles/theme.ts
-import { colors } from "./Colors";
+import { colors } from './colors'
 
 const theme = {
   colors: colors.dark, // dark 모드를 기본 색상으로 사용
@@ -15,6 +15,6 @@ const theme = {
     opacity: 0.2,
     radius: 3,
   },
-};
+}
 
-export default theme;
+export default theme

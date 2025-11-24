@@ -48,12 +48,6 @@
           "color": "#ffffff",
           "defaultChannel": "default"
         }
-      ],
-      [
-        "expo-font",
-        {
-          "fonts": ["./assets/fonts/Pretendard-Regular.ttf", "./assets/fonts/Pretendard-Bold.ttf"]
-        }
       ]
     ],
     "experiments": {
