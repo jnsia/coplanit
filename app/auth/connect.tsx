@@ -4,12 +4,12 @@ import { FontAwesome } from '@expo/vector-icons'
 import { colors } from '@/shared/constants/colors'
 import { fonts } from '@/shared/constants/fonts'
 import theme from '@/shared/constants/theme'
-import RegistButton from '@/components/atoms/RegistButton'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useSignOut } from '@/features/auth/model/auth-queries'
-import { supabase } from '@/lib/supabase'
 import { user } from '@/entities/user/model/user'
-import { sendPushNotification } from '@/lib/pushNotification'
+import { supabase } from '@/shared/lib/supabase'
+import { sendPushNotification } from '@/shared/lib/pushNotification'
+import RegistButton from '@/shared/components/atoms/RegistButton'
 
 export default function ConnectScreen() {
   const [secret, setSecret] = useState('')

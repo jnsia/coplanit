@@ -4,10 +4,10 @@ import { FontAwesome } from '@expo/vector-icons'
 import { router } from 'expo-router'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useSignOut } from '@/features/auth/model/auth-queries'
-import { useTheme } from '@/lib/ThemeProvider'
 import { spacing, fontSize, radius, colors as tokenColors } from '@/shared/constants/tokens'
-import Card from '@/components/atoms/Card'
 import EditNameModal from '@/features/user/ui/EditNameModal'
+import { useTheme } from '@/shared/lib/ThemeProvider'
+import Card from '@/shared/components/atoms/Card'
 
 export default function SettingScreen() {
   const { user, refetch } = useCurrentUser()

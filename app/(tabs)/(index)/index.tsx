@@ -10,14 +10,14 @@ import {
 import { useCallback, useState } from 'react'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useFocusEffect } from 'expo-router'
-import { useTheme } from '@/lib/ThemeProvider'
 import { spacing, fontSize } from '@/shared/constants/tokens'
-import TaskCard from '@/components/molecules/TaskCard'
 import TaskDetailModal from '@/features/task/ui/TaskDetailModal'
 import type { Task } from '@/entities/task/model/task'
 import { getMyTasks, completeTask, cancelTask } from '@/entities/task/api/task'
 import { getUserById } from '@/entities/user/api/user.api'
 import type { user as UserType } from '@/entities/user/model/user'
+import { useTheme } from '@/shared/lib/ThemeProvider'
+import TaskCard from '@/shared/components/molecules/TaskCard'
 
 export default function HomeScreen() {
   const [tasks, setTasks] = useState<Task[]>([])

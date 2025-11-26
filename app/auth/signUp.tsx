@@ -4,8 +4,7 @@ import { fonts } from '@/shared/constants/fonts'
 import { colors } from '@/shared/constants/colors'
 import theme from '@/shared/constants/theme'
 import { router } from 'expo-router'
-import { createClient } from '@supabase/supabase-js'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/shared/lib/supabase'
 
 const regex = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
 

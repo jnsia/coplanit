@@ -1,11 +1,8 @@
 import MissionInfoModal from '@/features/mission/ui/MissionInfoModal'
-import RegistButton from '@/components/atoms/RegistButton'
 import theme from '@/shared/constants/theme'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useLoveFcmToken } from '@/features/auth/model/auth-queries'
 import { mission } from '@/entities/mission/model/mission'
-import { user } from '@/entities/user/model/user'
-import { supabase } from '@/lib/supabase'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
@@ -13,7 +10,9 @@ import { fonts } from '@/shared/constants/fonts'
 import { colors } from '@/shared/constants/colors'
 import ScheduledMissionRegistModal from '@/features/mission/ui/ScheduledMissionRegistModal'
 import ScheduledMissionInfoModal from '@/features/mission/ui/ScheduledMissionInfoModal'
-import CloseButton from '@/components/atoms/CloseButton'
+import { supabase } from '@/shared/lib/supabase'
+import RegistButton from '@/shared/components/atoms/RegistButton'
+import CloseButton from '@/shared/components/atoms/CloseButton'
 
 export default function ScheduleScreen() {
   const [missions, setMissions] = useState<mission[]>([])

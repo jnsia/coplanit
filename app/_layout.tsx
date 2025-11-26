@@ -2,15 +2,14 @@ import { Stack, useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import 'react-native-reanimated'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '@/lib/query-client'
 import { StatusBar, StyleSheet } from 'react-native'
 import theme from '@/shared/constants/theme'
 import { setCustomText } from 'react-native-global-props'
-import { setNotificationListeners } from '@/lib/pushNotification'
-// import { initMobileAds, setRewardAdvertisement } from '@/lib/advertisement'
 import { useUserByEmail } from '@/features/auth/model/auth-queries'
 import { checkAutoLogin } from '@/features/auth/api/auth.api'
-import { ThemeProvider } from '@/lib/ThemeProvider'
+import { setNotificationListeners } from '@/shared/lib/pushNotification'
+import { ThemeProvider } from '@/shared/lib/ThemeProvider'
+import { queryClient } from '@/shared/lib/query-client'
 
 function RootLayoutContent() {
   const [autoLoginEmail, setAutoLoginEmail] = useState<string | null>(null)
@@ -19,7 +18,6 @@ function RootLayoutContent() {
   const router = useRouter()
 
   useEffect(() => {
-    // initMobileAds()
     setNotificationListeners()
   }, [])
 
