@@ -1,7 +1,6 @@
 import MissionInfoModal from '@/features/mission/ui/MissionInfoModal'
 import theme from '@/shared/constants/theme'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
-import { useLoveFcmToken } from '@/features/auth/model/auth-queries'
 import { mission } from '@/entities/mission/model/mission'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
@@ -22,7 +21,6 @@ export default function ScheduleScreen() {
   const [selctedMissionId, setSelctedMissionId] = useState(0)
 
   const { user } = useCurrentUser()
-  const { data: loveFcmToken } = useLoveFcmToken(user?.loveId)
 
   const getMissions = async () => {
     if (!user?.loveId) return

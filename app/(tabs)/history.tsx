@@ -2,12 +2,12 @@ import { useCallback, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import { useFocusEffect } from 'expo-router'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
-import { useTheme } from '@/lib/ThemeProvider'
 import { spacing, fontSize } from '@/shared/constants/tokens'
-import Card from '@/components/atoms/Card'
-import Badge from '@/components/atoms/Badge'
 import { getTasks } from '@/entities/task/api/task'
 import type { Task } from '@/entities/task/model/task'
+import { useTheme } from '@/shared/lib/ThemeProvider'
+import Card from '@/shared/components/atoms/Card'
+import Badge from '@/shared/components/atoms/Badge'
 
 const actionLabels = {
   completed: '완료됨',

@@ -5,16 +5,12 @@ import { colors } from '@/shared/constants/colors'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useFocusEffect } from 'expo-router'
 import { fonts } from '@/shared/constants/fonts'
-import { rewarded } from '@/lib/advertisement'
 import { useUserByEmail } from '@/features/auth/model/auth-queries'
 import { checkAutoLogin } from '@/features/auth/api/auth.api'
-import { useQueryClient } from '@tanstack/react-query'
-import { userKeys } from '@/features/auth/model/auth-queries'
 
 export default function Header() {
   const [loginEmail, setLoginEmail] = useState<string | null>(null)
   const { data: user, refetch } = useUserByEmail(loginEmail || undefined)
-  const queryClient = useQueryClient()
 
   useEffect(() => {
     const getEmail = async () => {
@@ -23,31 +19,6 @@ export default function Header() {
     }
     getEmail()
   }, [])
-
-  const handleAdsShow = () => {
-    try {
-      rewarded.show()
-    } catch (error) {
-      Alert.alert('리워드 광고', '준비된 광고가 없습니다.')
-    }
-  }
-
-  const handleCoinPress = () => {
-    Alert.alert(
-      '리워드 광고',
-      '광고를 시청하고 100Coin을 획득하시겠습니까?',
-      [
-        {
-          text: '아니요',
-        },
-        {
-          text: '네!',
-          onPress: handleAdsShow,
-        },
-      ],
-      { cancelable: false },
-    )
-  }
 
   useFocusEffect(
     useCallback(() => {
@@ -60,7 +31,7 @@ export default function Header() {
 
   return (
     <View style={styles.header}>
-      <TouchableOpacity style={styles.userCoinContainer} onPress={handleCoinPress}>
+      <TouchableOpacity style={styles.userCoinContainer}>
         <View>
           <View style={styles.coinIcon}>
             <FontAwesome5 name='coins' size={20} color={colors.accent} />

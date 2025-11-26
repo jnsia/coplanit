@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native'
-import Card from '@/components/atoms/Card'
-import Badge from '@/components/atoms/Badge'
 import { spacing, fontSize, fontWeight } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
+import { useTheme } from '@/shared/lib/ThemeProvider'
+import Card from '../atoms/Card'
+import Badge from '../atoms/Badge'
 
 type TaskCardProps = Readonly<{
   title: string

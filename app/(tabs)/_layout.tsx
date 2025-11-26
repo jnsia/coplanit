@@ -1,8 +1,8 @@
 import { FontAwesome } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 import { StatusBar } from 'react-native'
-import { useTheme } from '@/lib/ThemeProvider'
 import { colors as tokenColors } from '@/shared/constants/tokens'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 
 export default function HomeLayout() {
   const { theme, colors } = useTheme()

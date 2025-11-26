@@ -1,8 +1,8 @@
 import { View, Text, Modal, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
-import CancelButton from '@/components/atoms/CancelButton'
 import theme from '@/shared/constants/theme'
 import { fonts } from '@/shared/constants/fonts'
+import CancelButton from '@/shared/components/atoms/CancelButton'
 
 export default function HistoryInfoModal({
   isModalVisible,

@@ -1,7 +1,7 @@
 import { View, Modal as RNModal, StyleSheet, Pressable, Text } from 'react-native'
 import { spacing, radius, fontSize, fontWeight } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
 import type { ReactNode } from 'react'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 
 type ModalProps = Readonly<{
   visible: boolean

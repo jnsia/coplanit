@@ -1,7 +1,7 @@
 import { View, Pressable, StyleSheet } from 'react-native'
 import { spacing, radius, shadow } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
 import type { ReactNode } from 'react'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 
 type CardProps = Readonly<{
   children: ReactNode

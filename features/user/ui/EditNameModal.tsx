@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
-import Modal from '@/components/molecules/Modal'
-import Button from '@/components/atoms/Button'
+import Modal from '@/shared/components/molecules/Modal'
+import Button from '@/shared/components/atoms/Button'
 import { spacing, fontSize } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 import { updateUserNickname } from '@/entities/user/api/user.api'
 
 type EditNameModalProps = Readonly<{

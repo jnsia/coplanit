@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/shared/lib/supabase'
 import type { Task, CreateTaskInput, UpdateTaskInput } from '../model/task'
 
 export async function getTasks(): Promise<Task[]> {
@@ -36,22 +36,14 @@ export async function getMyTasks(userId: number): Promise<Task[]> {
 }
 
 export async function getTaskById(taskId: number): Promise<Task | null> {
-  const { data, error } = await supabase
-    .from('tasks')
-    .select('*')
-    .eq('id', taskId)
-    .single()
+  const { data, error } = await supabase.from('tasks').select('*').eq('id', taskId).single()
 
   if (error) throw error
   return data
 }
 
 export async function createTask(input: CreateTaskInput): Promise<Task> {
-  const { data, error } = await supabase
-    .from('tasks')
-    .insert(input)
-    .select()
-    .single()
+  const { data, error } = await supabase.from('tasks').insert(input).select().single()
 
   if (error) throw error
   return data
@@ -70,10 +62,7 @@ export async function updateTask(taskId: number, input: UpdateTaskInput): Promis
 }
 
 export async function deleteTask(taskId: number): Promise<void> {
-  const { error } = await supabase
-    .from('tasks')
-    .delete()
-    .eq('id', taskId)
+  const { error } = await supabase.from('tasks').delete().eq('id', taskId)
 
   if (error) throw error
 }

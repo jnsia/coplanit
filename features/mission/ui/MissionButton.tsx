@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import theme from '@/shared/constants/theme'
 import { mission } from '@/entities/mission/model/mission'
-import Badge from '@/components/atoms/Badge'
+import Badge from '@/shared/components/atoms/Badge'
 import { colors } from '@/shared/constants/colors'
 import { fonts } from '@/shared/constants/fonts'
 

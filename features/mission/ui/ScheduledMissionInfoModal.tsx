@@ -10,11 +10,11 @@ import {
 import React from 'react'
 import { user } from '@/entities/user/model/user'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
-import { supabase } from '@/lib/supabase'
-import CancelButton from '@/components/atoms/CancelButton'
+import { supabase } from '@/shared/lib/supabase'
+import CancelButton from '@/shared/components/atoms/CancelButton'
 import theme from '@/shared/constants/theme'
 import { mission } from '@/entities/mission/model/mission'
-import DeleteButton from '@/components/atoms/DeleteButton'
+import DeleteButton from '@/shared/components/atoms/DeleteButton'
 import { fonts } from '@/shared/constants/fonts'
 
 type ScheduledMissionInfoModalProps = Readonly<{

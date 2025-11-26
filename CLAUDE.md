@@ -230,8 +230,8 @@ import { View, Text, StyleSheet } from 'react-native'
 import { create } from 'zustand'
 
 // 4. 내부 모듈 (alias 사용)
-import { supabase } from '@/lib/supabase'
-import { Button } from '@/components/atoms'
+import { supabase } from '@/shared/lib/supabase'
+import { Button } from '@/shared/components/atoms'
 import { useUserStore } from '@/stores/useUserStore'
 
 // 5. 상대 경로
@@ -560,7 +560,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 
 ```typescript
 // entities/user/api/user.api.ts
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/shared/lib/supabase'
 import { User } from '../model/user'
 
 export async function getCurrentUser(): Promise<User | null> {
@@ -597,7 +597,7 @@ export async function updateUserProfile(userId: string, updates: Partial<User>) 
 
 ```typescript
 // features/auth/api/auth.api.ts
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/shared/lib/supabase'
 
 export async function signInWithEmail(email: string, password: string) {
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -630,7 +630,7 @@ export async function signOut() {
 ```typescript
 // hooks/useRealtimeSubscription.ts
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/shared/lib/supabase'
 import { RealtimeChannel } from '@supabase/supabase-js'
 
 export function useRealtimeSubscription<T>(table: string, filter?: string) {

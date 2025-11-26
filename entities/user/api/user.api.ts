@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/shared/lib/supabase'
 import { user } from '../model/user'
 
 export async function getCurrentUser(): Promise<user | null> {

@@ -1,6 +1,6 @@
 import { TextInput, Text, View, StyleSheet } from 'react-native'
 import { spacing, radius, fontSize } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 
 type InputProps = Readonly<{
   value: string

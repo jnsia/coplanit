@@ -1,9 +1,8 @@
-import { View, Text, Modal, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, Modal, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import React from 'react'
 import theme from '@/shared/constants/theme'
-import { failedMission } from '@/entities/mission/model/mission'
-import CancelButton from '@/components/atoms/CancelButton'
 import { fonts } from '@/shared/constants/fonts'
+import CancelButton from '../atoms/CancelButton'
 
 export default function CommonModal({
   isVisible,

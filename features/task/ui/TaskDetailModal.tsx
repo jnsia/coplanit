@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, Alert } from 'react-native'
-import Modal from '@/components/molecules/Modal'
-import Button from '@/components/atoms/Button'
-import Badge from '@/components/atoms/Badge'
+import Modal from '@/shared/components/molecules/Modal'
+import Button from '@/shared/components/atoms/Button'
+import Badge from '@/shared/components/atoms/Badge'
 import { spacing, fontSize } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 import type { Task } from '@/entities/task/model/task'
 
 type TaskDetailModalProps = Readonly<{

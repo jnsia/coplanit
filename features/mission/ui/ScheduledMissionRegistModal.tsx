@@ -8,13 +8,13 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native'
 import React, { useState } from 'react'
-import SubmitButton from '@/components/atoms/SubmitButton'
+import SubmitButton from '@/shared/components/atoms/SubmitButton'
 import { user } from '@/entities/user/model/user'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
-import { supabase } from '@/lib/supabase'
-import CancelButton from '@/components/atoms/CancelButton'
+import { supabase } from '@/shared/lib/supabase'
+import CancelButton from '@/shared/components/atoms/CancelButton'
 import { colors } from '@/shared/constants/colors'
-import { sendPushNotification } from '@/lib/pushNotification'
+import { sendPushNotification } from '@/shared/lib/pushNotification'
 import { fonts } from '@/shared/constants/fonts'
 
 type ScheduledMissionRegistModalProps = Readonly<{

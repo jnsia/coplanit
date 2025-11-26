@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/supabase'
-import { registerForPushNotificationsAsync } from '@/lib/pushNotification'
+import { supabase } from '@/shared/lib/supabase'
+import { registerForPushNotificationsAsync } from '@/shared/lib/pushNotification'
 import { updateUserFcmToken } from '@/entities/user/api/user.api'
 import { user } from '@/entities/user/model/user'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -18,7 +18,11 @@ export async function signIn({ email, password }: SignInParams): Promise<user | 
       return null
     }
 
-    const { data, error: userError } = await supabase.from('users').select().eq('email', email).single()
+    const { data, error: userError } = await supabase
+      .from('users')
+      .select()
+      .eq('email', email)
+      .single()
 
     if (userError || !data) {
       console.error('User fetch error:', userError?.message)

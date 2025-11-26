@@ -7,7 +7,7 @@ import {
   fontWeight,
   shadow,
 } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost'
 type ButtonSize = 'sm' | 'md' | 'lg'

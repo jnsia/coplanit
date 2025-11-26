@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native'
 import { useState } from 'react'
-import Modal from '@/components/molecules/Modal'
-import Input from '@/components/atoms/Input'
-import Button from '@/components/atoms/Button'
+import Modal from '@/shared/components/molecules/Modal'
+import Input from '@/shared/components/atoms/Input'
+import Button from '@/shared/components/atoms/Button'
 import { spacing, fontSize, radius } from '@/shared/constants/tokens'
 import { colors as tokenColors } from '@/shared/constants/tokens'
-import { useTheme } from '@/lib/ThemeProvider'
+import { useTheme } from '@/shared/lib/ThemeProvider'
 import type { TaskAssignedTo } from '@/entities/task/model/task'
 
 type TaskCreateModalProps = Readonly<{
