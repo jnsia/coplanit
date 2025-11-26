@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Coplanit",
-    "slug": "Coplanit",
+    "slug": "coplanit",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -59,7 +59,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "ca363540-d8ae-4c34-8bb6-e7dedbea0f99"
+        "projectId": "fedf977f-502f-4524-a11a-c5f975c0562a"
       }
     },
     "owner": "jnsia",
