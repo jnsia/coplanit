@@ -1,19 +1,20 @@
 {
-  "name": "jnotes",
+  "name": "coplanit",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
     "dev": "expo start",
     "dev-debug": "expo start --no-dev --minify",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
     "build-android-dev": "eas build --platform android --profile development",
     "build-android-pre": "eas build --platform android --profile preview",
-    "build-android-product": "eas build --platform android --profile production"
+    "build-android-product": "eas build --platform android --profile production",
+    "start": "expo start --dev-client"
   },
   "jest": {
     "preset": "jest-expo"
@@ -21,7 +22,7 @@
   "dependencies": {
     "@babel/runtime": "^7.28.4",
     "@expo/vector-icons": "^14.0.2",
-    "@react-native-async-storage/async-storage": "^1.24.0",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-navigation/native": "^6.0.2",
     "@supabase/supabase-js": "^2.45.1",
     "@tanstack/react-query": "^5.74.0",

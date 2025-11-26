@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "러브미!션",
-    "slug": "JNoteS",
+    "name": "Coplanit",
+    "slug": "Coplanit",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "coplanit",
     "userInterfaceStyle": "automatic",
     "notification": {
       "icon": "./assets/images/icon.png",
@@ -23,7 +23,8 @@
       "url": "https://u.expo.dev/ca363540-d8ae-4c34-8bb6-e7dedbea0f99"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jnsia.coplanit"
     },
     "android": {
       "versionCode": 2,
@@ -31,7 +32,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#2a2d3e"
       },
-      "package": "com.jnsia.JNoteS",
+      "package": "com.jnsia.coplanit",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
