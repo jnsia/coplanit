@@ -1,5 +1,12 @@
 import { Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native'
-import { colors as tokenColors, spacing, radius, fontSize, fontWeight, shadow } from '@/constants/tokens'
+import {
+  colors as tokenColors,
+  spacing,
+  radius,
+  fontSize,
+  fontWeight,
+  shadow,
+} from '@/shared/constants/tokens'
 import { useTheme } from '@/lib/ThemeProvider'
 
 type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost'
@@ -57,16 +64,13 @@ export default function Button({
 
   return (
     <Pressable
-      style={({ pressed }) => [
-        ...buttonStyles,
-        pressed && !disabled && styles.pressed,
-      ]}
+      style={({ pressed }) => [...buttonStyles, pressed && !disabled && styles.pressed]}
       onPress={onPress}
       disabled={disabled || loading}
     >
       {loading ? (
         <ActivityIndicator
-          size="small"
+          size='small'
           color={variant === 'primary' ? '#FFFFFF' : tokenColors.foundation.primary}
         />
       ) : (

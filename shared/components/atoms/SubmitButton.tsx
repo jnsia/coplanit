@@ -1,7 +1,7 @@
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import theme from '@/constants/theme'
-import { fonts } from '@/constants/fonts'
+import theme from '@/shared/constants/theme'
+import { fonts } from '@/shared/constants/fonts'
 
 type SubmitButtonProps = Readonly<{
   text: string

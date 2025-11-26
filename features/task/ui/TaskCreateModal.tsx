@@ -3,8 +3,8 @@ import { useState } from 'react'
 import Modal from '@/components/molecules/Modal'
 import Input from '@/components/atoms/Input'
 import Button from '@/components/atoms/Button'
-import { spacing, fontSize, radius } from '@/constants/tokens'
-import { colors as tokenColors } from '@/constants/tokens'
+import { spacing, fontSize, radius } from '@/shared/constants/tokens'
+import { colors as tokenColors } from '@/shared/constants/tokens'
 import { useTheme } from '@/lib/ThemeProvider'
 import type { TaskAssignedTo } from '@/entities/task/model/task'
 
@@ -51,25 +51,30 @@ export default function TaskCreateModal({ visible, onClose, onCreate }: TaskCrea
   }
 
   return (
-    <Modal visible={visible} onClose={onClose} title="할일 추가">
+    <Modal visible={visible} onClose={onClose} title='할일 추가'>
       <ScrollView>
         <View style={styles.container}>
-          <Input label="제목 *" value={title} onChangeText={setTitle} placeholder="할일 제목을 입력하세요" />
+          <Input
+            label='제목 *'
+            value={title}
+            onChangeText={setTitle}
+            placeholder='할일 제목을 입력하세요'
+          />
 
           <Input
-            label="설명 (선택)"
+            label='설명 (선택)'
             value={description}
             onChangeText={setDescription}
-            placeholder="상세 설명을 입력하세요"
+            placeholder='상세 설명을 입력하세요'
             multiline
             numberOfLines={3}
           />
 
           <Input
-            label="기한 (선택)"
+            label='기한 (선택)'
             value={dueDate}
             onChangeText={setDueDate}
-            placeholder="YYYY-MM-DD"
+            placeholder='YYYY-MM-DD'
           />
 
           <View>
@@ -102,7 +107,14 @@ export default function TaskCreateModal({ visible, onClose, onCreate }: TaskCrea
             </View>
           </View>
 
-          <Button title="추가" onPress={handleCreate} variant="primary" size="lg" fullWidth disabled={!title.trim()} />
+          <Button
+            title='추가'
+            onPress={handleCreate}
+            variant='primary'
+            size='lg'
+            fullWidth
+            disabled={!title.trim()}
+          />
         </View>
       </ScrollView>
     </Modal>

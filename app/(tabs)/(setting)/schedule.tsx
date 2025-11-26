@@ -1,6 +1,6 @@
 import MissionInfoModal from '@/features/mission/ui/MissionInfoModal'
 import RegistButton from '@/components/atoms/RegistButton'
-import theme from '@/constants/theme'
+import theme from '@/shared/constants/theme'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useLoveFcmToken } from '@/features/auth/model/auth-queries'
 import { mission } from '@/entities/mission/model/mission'
@@ -9,8 +9,8 @@ import { supabase } from '@/lib/supabase'
 import { router, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import { fonts } from '@/constants/fonts'
-import { colors } from '@/constants/colors'
+import { fonts } from '@/shared/constants/fonts'
+import { colors } from '@/shared/constants/colors'
 import ScheduledMissionRegistModal from '@/features/mission/ui/ScheduledMissionRegistModal'
 import ScheduledMissionInfoModal from '@/features/mission/ui/ScheduledMissionInfoModal'
 import CloseButton from '@/components/atoms/CloseButton'
@@ -85,7 +85,10 @@ export default function ScheduleScreen() {
       <ScrollView>
         {completedMissions.map((mission: mission) => (
           <View key={mission.id}>
-            <TouchableOpacity style={styles.completedItem} onPress={() => handleMissionPress(mission)}>
+            <TouchableOpacity
+              style={styles.completedItem}
+              onPress={() => handleMissionPress(mission)}
+            >
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>쿠폰</Text>
               </View>
@@ -127,8 +130,8 @@ export default function ScheduleScreen() {
         closeModal={closeModal}
       />
       <View style={{ marginBottom: 10 }}>
-        <RegistButton text="일일 미션 예약하기" onPress={openModal} />
-        <CloseButton text="닫기" onPress={() => router.back()} />
+        <RegistButton text='일일 미션 예약하기' onPress={openModal} />
+        <CloseButton text='닫기' onPress={() => router.back()} />
       </View>
     </View>
   )

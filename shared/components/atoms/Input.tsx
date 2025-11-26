@@ -1,5 +1,5 @@
 import { TextInput, Text, View, StyleSheet } from 'react-native'
-import { spacing, radius, fontSize } from '@/constants/tokens'
+import { spacing, radius, fontSize } from '@/shared/constants/tokens'
 import { useTheme } from '@/lib/ThemeProvider'
 
 type InputProps = Readonly<{
@@ -11,7 +11,14 @@ type InputProps = Readonly<{
   numberOfLines?: number
 }>
 
-export default function Input({ value, onChangeText, placeholder, label, multiline = false, numberOfLines = 1 }: InputProps) {
+export default function Input({
+  value,
+  onChangeText,
+  placeholder,
+  label,
+  multiline = false,
+  numberOfLines = 1,
+}: InputProps) {
   const { colors } = useTheme()
 
   return (

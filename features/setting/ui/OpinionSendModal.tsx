@@ -1,7 +1,7 @@
 import { View, Text, Modal, StyleSheet, TouchableWithoutFeedback, TextInput } from 'react-native'
 import React, { useState } from 'react'
 import CancelButton from '@/components/atoms/CancelButton'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 import { supabase } from '@/lib/supabase'
 import SubmitButton from '@/components/atoms/SubmitButton'
 

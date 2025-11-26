@@ -1,9 +1,9 @@
 import { View, Text, Modal, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import theme from '@/constants/theme'
+import theme from '@/shared/constants/theme'
 import { failedMission } from '@/entities/mission/model/mission'
 import CancelButton from '@/components/atoms/CancelButton'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 
 export default function FailedMissionInfoModal({
   isFailedMissionInfoVisible,

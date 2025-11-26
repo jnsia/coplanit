@@ -1,8 +1,8 @@
 import { View, Text, Modal, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
 import CancelButton from '@/components/atoms/CancelButton'
-import theme from '@/constants/theme'
-import { fonts } from '@/constants/fonts'
+import theme from '@/shared/constants/theme'
+import { fonts } from '@/shared/constants/fonts'
 
 export default function HistoryInfoModal({
   isModalVisible,
@@ -15,7 +15,7 @@ export default function HistoryInfoModal({
 }) {
   return (
     <Modal
-      animationType="fade"
+      animationType='fade'
       visible={isModalVisible}
       transparent={true}
       onRequestClose={closeModal}
@@ -40,7 +40,7 @@ export default function HistoryInfoModal({
               </Text>
             </View>
 
-            <CancelButton text="닫기" onPress={closeModal} />
+            <CancelButton text='닫기' onPress={closeModal} />
           </ScrollView>
         </View>
       </TouchableWithoutFeedback>

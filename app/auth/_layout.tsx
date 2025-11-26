@@ -1,14 +1,14 @@
 import { StyleSheet } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
-import theme from '@/constants/theme'
+import theme from '@/shared/constants/theme'
 
 export default function Authlayout() {
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: styles.container }}>
-      <Stack.Screen name="signIn" />
-      <Stack.Screen name="signUp" />
-      <Stack.Screen name="connect" />
+      <Stack.Screen name='signIn' />
+      <Stack.Screen name='signUp' />
+      <Stack.Screen name='connect' />
     </Stack>
   )
 }

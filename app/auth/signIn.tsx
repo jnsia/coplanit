@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Animated } from 'react-native'
 import React, { useState } from 'react'
-import { colors } from '@/constants/colors'
-import theme from '@/constants/theme'
+import { colors } from '@/shared/constants/colors'
+import theme from '@/shared/constants/theme'
 import { useSignIn } from '@/features/auth/model/auth-queries'
 import { router } from 'expo-router'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 import type { user } from '@/entities/user/model/user'
 
 export default function SignInScreen() {

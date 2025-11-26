@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Alert } from 'react-native'
 import Modal from '@/components/molecules/Modal'
 import Button from '@/components/atoms/Button'
 import Badge from '@/components/atoms/Badge'
-import { spacing, fontSize } from '@/constants/tokens'
+import { spacing, fontSize } from '@/shared/constants/tokens'
 import { useTheme } from '@/lib/ThemeProvider'
 import type { Task } from '@/entities/task/model/task'
 
@@ -20,7 +20,13 @@ const assignedToLabels = {
   both: '함께',
 }
 
-export default function TaskDetailModal({ visible, task, onClose, onComplete, onCancel }: TaskDetailModalProps) {
+export default function TaskDetailModal({
+  visible,
+  task,
+  onClose,
+  onComplete,
+  onCancel,
+}: TaskDetailModalProps) {
   const { colors } = useTheme()
 
   if (!task) return null
@@ -81,8 +87,8 @@ export default function TaskDetailModal({ visible, task, onClose, onComplete, on
 
         {task.status === 'pending' && (
           <View style={styles.actions}>
-            <Button title="완료" onPress={handleComplete} variant="primary" size="lg" fullWidth />
-            <Button title="취소" onPress={handleCancel} variant="outline" size="lg" fullWidth />
+            <Button title='완료' onPress={handleComplete} variant='primary' size='lg' fullWidth />
+            <Button title='취소' onPress={handleCancel} variant='outline' size='lg' fullWidth />
           </View>
         )}
       </View>

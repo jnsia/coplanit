@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet } from 'react-native'
-import { colors as tokenColors, spacing, radius, fontSize } from '@/constants/tokens'
+import { colors as tokenColors, spacing, radius, fontSize } from '@/shared/constants/tokens'
 
 type BadgeVariant = 'me' | 'partner' | 'both' | 'pending' | 'completed' | 'cancelled'
 

@@ -13,9 +13,9 @@ import { user } from '@/entities/user/model/user'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { supabase } from '@/lib/supabase'
 import CancelButton from '@/components/atoms/CancelButton'
-import { colors } from '@/constants/colors'
+import { colors } from '@/shared/constants/colors'
 import { sendPushNotification } from '@/lib/pushNotification'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 
 type ScheduledMissionRegistModalProps = Readonly<{
   getMissions: () => void
@@ -63,7 +63,7 @@ export default function ScheduledMissionRegistModal({
 
   return (
     <Modal
-      animationType="fade"
+      animationType='fade'
       visible={isModalVisible}
       transparent={true}
       onRequestClose={closeModal}
@@ -76,7 +76,7 @@ export default function ScheduledMissionRegistModal({
                 <Text style={styles.label}>미션 제목</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="미션 제목을 입력하세요"
+                  placeholder='미션 제목을 입력하세요'
                   value={title}
                   onChangeText={setTitle}
                 />
@@ -84,7 +84,7 @@ export default function ScheduledMissionRegistModal({
                 <Text style={styles.label}>미션 설명</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="미션 설명을 입력하세요"
+                  placeholder='미션 설명을 입력하세요'
                   value={description}
                   onChangeText={setDescription}
                   multiline
@@ -93,26 +93,26 @@ export default function ScheduledMissionRegistModal({
                 <Text style={styles.label}>성공 시 지급될 코인</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="코인 입력"
+                  placeholder='코인 입력'
                   value={successCoin}
                   onChangeText={setSuccessCoin}
-                  keyboardType="numeric"
+                  keyboardType='numeric'
                 />
 
                 <View>
                   <Text style={styles.label}>실패 시 차감될 코인</Text>
                   <TextInput
                     style={styles.input}
-                    placeholder="코인 입력"
+                    placeholder='코인 입력'
                     value={failCoin}
                     onChangeText={setFailCoin}
-                    keyboardType="numeric"
+                    keyboardType='numeric'
                   />
                 </View>
 
                 <View style={{ flexDirection: 'row', gap: 16 }}>
-                  <CancelButton text="취소하기" onPress={closeModal} />
-                  <SubmitButton text="예약하기" onPress={registMission} />
+                  <CancelButton text='취소하기' onPress={closeModal} />
+                  <SubmitButton text='예약하기' onPress={registMission} />
                 </View>
               </ScrollView>
             </View>

@@ -2,7 +2,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import { Tabs } from 'expo-router'
 import { StatusBar } from 'react-native'
 import { useTheme } from '@/lib/ThemeProvider'
-import { colors as tokenColors } from '@/constants/tokens'
+import { colors as tokenColors } from '@/shared/constants/tokens'
 
 export default function HomeLayout() {
   const { theme, colors } = useTheme()
@@ -48,25 +48,25 @@ export default function HomeLayout() {
         })}
       >
         <Tabs.Screen
-          name="(index)"
+          name='(index)'
           options={{
             title: '내 할일',
           }}
         />
         <Tabs.Screen
-          name="love"
+          name='love'
           options={{
             title: '전체',
           }}
         />
         <Tabs.Screen
-          name="history"
+          name='history'
           options={{
             title: '이력',
           }}
         />
         <Tabs.Screen
-          name="(setting)"
+          name='(setting)'
           options={{
             title: '설정',
           }}

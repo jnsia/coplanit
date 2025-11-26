@@ -15,10 +15,10 @@ import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useLoveFcmToken } from '@/features/auth/model/auth-queries'
 import { supabase } from '@/lib/supabase'
 import CancelButton from '@/components/atoms/CancelButton'
-import theme from '@/constants/theme'
-import { colors } from '@/constants/colors'
+import theme from '@/shared/constants/theme'
+import { colors } from '@/shared/constants/colors'
 import { sendPushNotification } from '@/lib/pushNotification'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 
 type MissionRegistModalProps = Readonly<{
   getMissions: () => void
@@ -78,7 +78,7 @@ export default function MissionRegistModal({
 
   return (
     <Modal
-      animationType="fade"
+      animationType='fade'
       visible={isModalVisible}
       transparent={true}
       onRequestClose={closeModal}
@@ -100,7 +100,9 @@ export default function MissionRegistModal({
                 )}
                 {type === 'emergency' && (
                   <View style={styles.guideBox}>
-                    <Text style={styles.guideText}>긴급 미션은 미션의 마감기한을 설정할 수 있어요.</Text>
+                    <Text style={styles.guideText}>
+                      긴급 미션은 미션의 마감기한을 설정할 수 있어요.
+                    </Text>
                   </View>
                 )}
 
@@ -134,7 +136,7 @@ export default function MissionRegistModal({
                     <Text style={styles.label}>마감시간</Text>
                     <TextInput
                       style={styles.input}
-                      placeholder="YYYY-MM-DD HH-MM"
+                      placeholder='YYYY-MM-DD HH-MM'
                       value={deadline}
                       onChangeText={setDeadline}
                     />
@@ -144,7 +146,7 @@ export default function MissionRegistModal({
                 <Text style={styles.label}>미션 제목</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="미션 제목을 입력하세요"
+                  placeholder='미션 제목을 입력하세요'
                   value={title}
                   onChangeText={setTitle}
                 />
@@ -152,7 +154,7 @@ export default function MissionRegistModal({
                 <Text style={styles.label}>미션 설명</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="미션 설명을 입력하세요"
+                  placeholder='미션 설명을 입력하세요'
                   value={description}
                   onChangeText={setDescription}
                   multiline
@@ -161,10 +163,10 @@ export default function MissionRegistModal({
                 <Text style={styles.label}>성공 시 지급될 코인</Text>
                 <TextInput
                   style={styles.input}
-                  placeholder="코인 입력"
+                  placeholder='코인 입력'
                   value={successCoin}
                   onChangeText={setSuccessCoin}
-                  keyboardType="numeric"
+                  keyboardType='numeric'
                 />
 
                 {type !== 'special' && (
@@ -172,17 +174,17 @@ export default function MissionRegistModal({
                     <Text style={styles.label}>실패 시 차감될 코인</Text>
                     <TextInput
                       style={styles.input}
-                      placeholder="코인 입력"
+                      placeholder='코인 입력'
                       value={failCoin}
                       onChangeText={setFailCoin}
-                      keyboardType="numeric"
+                      keyboardType='numeric'
                     />
                   </View>
                 )}
 
                 <View style={{ flexDirection: 'row', gap: 16, marginTop: 8 }}>
-                  <CancelButton text="취소하기" onPress={closeModal} />
-                  <SubmitButton text="저장하기" onPress={registMission} />
+                  <CancelButton text='취소하기' onPress={closeModal} />
+                  <SubmitButton text='저장하기' onPress={registMission} />
                 </View>
               </ScrollView>
             </View>

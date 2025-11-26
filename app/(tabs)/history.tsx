@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-nat
 import { useFocusEffect } from 'expo-router'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useTheme } from '@/lib/ThemeProvider'
-import { spacing, fontSize } from '@/constants/tokens'
+import { spacing, fontSize } from '@/shared/constants/tokens'
 import Card from '@/components/atoms/Card'
 import Badge from '@/components/atoms/Badge'
 import { getTasks } from '@/entities/task/api/task'
@@ -52,7 +52,7 @@ export default function HistoryScreen() {
     <View style={[styles.container, { backgroundColor: colors.background.secondary }]}>
       {isLoading ? (
         <View style={styles.loading}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator size='large' />
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.list}>
@@ -66,7 +66,7 @@ export default function HistoryScreen() {
                     <Text style={[styles.title, { color: colors.text.primary }]} numberOfLines={1}>
                       {task.title}
                     </Text>
-                    <Badge label={actionLabels.completed} variant="completed" />
+                    <Badge label={actionLabels.completed} variant='completed' />
                   </View>
                   {task.completed_at && (
                     <Text style={[styles.date, { color: colors.text.tertiary }]}>
@@ -94,7 +94,7 @@ export default function HistoryScreen() {
                     <Text style={[styles.title, { color: colors.text.primary }]} numberOfLines={1}>
                       {task.title}
                     </Text>
-                    <Badge label={actionLabels.cancelled} variant="cancelled" />
+                    <Badge label={actionLabels.cancelled} variant='cancelled' />
                   </View>
                   <Text style={[styles.date, { color: colors.text.tertiary }]}>
                     {new Date(task.updated_at).toLocaleDateString('ko-KR', {
@@ -112,7 +112,9 @@ export default function HistoryScreen() {
 
           {completedTasks.length === 0 && cancelledTasks.length === 0 && (
             <View style={styles.empty}>
-              <Text style={[styles.emptyText, { color: colors.text.tertiary }]}>이력이 없습니다</Text>
+              <Text style={[styles.emptyText, { color: colors.text.tertiary }]}>
+                이력이 없습니다
+              </Text>
             </View>
           )}
         </ScrollView>

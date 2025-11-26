@@ -1,15 +1,9 @@
 import { Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import theme from '@/constants/theme'
-import { fonts } from '@/constants/fonts'
+import theme from '@/shared/constants/theme'
+import { fonts } from '@/shared/constants/fonts'
 
-export default function RegistButton({
-  text,
-  onPress,
-}: {
-  text: string
-  onPress: () => void
-}) {
+export default function RegistButton({ text, onPress }: { text: string; onPress: () => void }) {
   return (
     <TouchableOpacity style={styles.button} onPress={onPress}>
       <Text style={styles.buttonText}>{text}</Text>
@@ -29,7 +23,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: theme.colors.text,
     fontSize: fonts.size.body,
-
 
     fontWeight: 'bold',
     textAlign: 'center',

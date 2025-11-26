@@ -16,12 +16,12 @@ import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useLoveFcmToken } from '@/features/auth/model/auth-queries'
 import { supabase } from '@/lib/supabase'
 import CancelButton from '@/components/atoms/CancelButton'
-import theme from '@/constants/theme'
+import theme from '@/shared/constants/theme'
 import { mission } from '@/entities/mission/model/mission'
-import { colors } from '@/constants/colors'
+import { colors } from '@/shared/constants/colors'
 import { sendPushNotification } from '@/lib/pushNotification'
 import DeleteButton from '@/components/atoms/DeleteButton'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 
 export default function MissionInfoModal({
   getMissions,
@@ -161,7 +161,7 @@ export default function MissionInfoModal({
 
   return (
     <Modal
-      animationType="fade"
+      animationType='fade'
       visible={isMissionInfoVisible}
       transparent={true}
       onRequestClose={closeMissionInfoModal}
@@ -174,7 +174,7 @@ export default function MissionInfoModal({
               <Text style={styles.missionInfoText}>{mission.title}</Text>
             </View>
 
-            {(mission.description != null && mission.description != '') && (
+            {mission.description != null && mission.description != '' && (
               <View style={styles.missionInfo}>
                 <Text style={styles.label}>미션 설명</Text>
                 <Text style={styles.missionInfoText}>{mission.description}</Text>
@@ -210,13 +210,13 @@ export default function MissionInfoModal({
                       승인 대기 중 입니다...
                     </Text>
                     <View style={{ flexDirection: 'row', gap: 16, marginTop: 8 }}>
-                      <CancelButton text="닫기" onPress={closeMissionInfoModal} />
+                      <CancelButton text='닫기' onPress={closeMissionInfoModal} />
                     </View>
                   </View>
                 ) : (
                   <View style={{ flexDirection: 'row', gap: 16, marginTop: 8 }}>
-                    <CancelButton text="닫기" onPress={closeMissionInfoModal} />
-                    <SubmitButton text="미션 완료" onPress={handleCompleteButton} />
+                    <CancelButton text='닫기' onPress={closeMissionInfoModal} />
+                    <SubmitButton text='미션 완료' onPress={handleCompleteButton} />
                   </View>
                 )}
               </View>
@@ -224,17 +224,17 @@ export default function MissionInfoModal({
               <View>
                 {mission.completed ? (
                   <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
-                    <CancelButton text="닫기" onPress={closeMissionInfoModal} />
-                    <SubmitButton text="미션 완료 확인" onPress={handleApproveButton} />
+                    <CancelButton text='닫기' onPress={closeMissionInfoModal} />
+                    <SubmitButton text='미션 완료 확인' onPress={handleApproveButton} />
                   </View>
                 ) : (
                   <View>
                     <View style={{ flexDirection: 'row', gap: 8 }}>
-                      <DeleteButton text="삭제하기" onPress={handleDeleteMission} />
-                      <SubmitButton text="미션 완료 처리" onPress={handleApproveButton} />
+                      <DeleteButton text='삭제하기' onPress={handleDeleteMission} />
+                      <SubmitButton text='미션 완료 처리' onPress={handleApproveButton} />
                     </View>
                     <View style={{ flexDirection: 'row', gap: 8, marginTop: 8 }}>
-                      <CancelButton text="닫기" onPress={closeMissionInfoModal} />
+                      <CancelButton text='닫기' onPress={closeMissionInfoModal} />
                     </View>
                   </View>
                 )}

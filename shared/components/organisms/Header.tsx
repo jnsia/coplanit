@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native'
 import React, { useCallback, useState, useEffect } from 'react'
-import theme from '@/constants/theme'
-import { colors } from '@/constants/colors'
+import theme from '@/shared/constants/theme'
+import { colors } from '@/shared/constants/colors'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useFocusEffect } from 'expo-router'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 import { rewarded } from '@/lib/advertisement'
 import { useUserByEmail } from '@/features/auth/model/auth-queries'
 import { checkAutoLogin } from '@/features/auth/api/auth.api'
@@ -63,10 +63,10 @@ export default function Header() {
       <TouchableOpacity style={styles.userCoinContainer} onPress={handleCoinPress}>
         <View>
           <View style={styles.coinIcon}>
-            <FontAwesome5 name="coins" size={20} color={colors.accent} />
+            <FontAwesome5 name='coins' size={20} color={colors.accent} />
           </View>
           <View style={styles.plusIcon}>
-            <FontAwesome5 name="plus" size={12} color={colors.accent} />
+            <FontAwesome5 name='plus' size={12} color={colors.accent} />
           </View>
         </View>
         {user && <Text style={styles.userCoin}>{user.coin} Coin</Text>}

@@ -1,5 +1,5 @@
 import { View, Modal as RNModal, StyleSheet, Pressable, Text } from 'react-native'
-import { spacing, radius, fontSize, fontWeight } from '@/constants/tokens'
+import { spacing, radius, fontSize, fontWeight } from '@/shared/constants/tokens'
 import { useTheme } from '@/lib/ThemeProvider'
 import type { ReactNode } from 'react'
 
@@ -14,9 +14,12 @@ export default function Modal({ visible, onClose, title, children }: ModalProps)
   const { colors } = useTheme()
 
   return (
-    <RNModal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+    <RNModal visible={visible} transparent animationType='fade' onRequestClose={onClose}>
       <Pressable style={styles.overlay} onPress={onClose}>
-        <Pressable style={[styles.content, { backgroundColor: colors.background.primary }]} onPress={(e) => e.stopPropagation()}>
+        <Pressable
+          style={[styles.content, { backgroundColor: colors.background.primary }]}
+          onPress={(e) => e.stopPropagation()}
+        >
           {title && (
             <View style={[styles.header, { borderBottomColor: colors.border.primary }]}>
               <Text style={[styles.title, { color: colors.text.primary }]}>{title}</Text>

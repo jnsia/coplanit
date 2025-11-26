@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Alert, Animated, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
-import { colors } from '@/constants/colors'
-import { fonts } from '@/constants/fonts'
-import theme from '@/constants/theme'
+import { colors } from '@/shared/constants/colors'
+import { fonts } from '@/shared/constants/fonts'
+import theme from '@/shared/constants/theme'
 import RegistButton from '@/components/atoms/RegistButton'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useSignOut } from '@/features/auth/model/auth-queries'
@@ -184,7 +184,7 @@ export default function ConnectScreen() {
               style={styles.hiddenInput}
               value={secret}
               onChangeText={setSecret}
-              keyboardType="numeric"
+              keyboardType='numeric'
               maxLength={6}
               onFocus={handleFocus}
               onBlur={handleBlur}
@@ -223,7 +223,7 @@ export default function ConnectScreen() {
           </View>
         </View>
       )}
-      <RegistButton text="다시 로그인하기" onPress={handleLogoutButton} />
+      <RegistButton text='다시 로그인하기' onPress={handleLogoutButton} />
     </View>
   )
 }
@@ -292,7 +292,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: fonts.size.body,
-
 
     color: '#FFF',
     fontWeight: 'bold',

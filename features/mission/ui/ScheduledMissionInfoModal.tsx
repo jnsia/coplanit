@@ -12,10 +12,10 @@ import { user } from '@/entities/user/model/user'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { supabase } from '@/lib/supabase'
 import CancelButton from '@/components/atoms/CancelButton'
-import theme from '@/constants/theme'
+import theme from '@/shared/constants/theme'
 import { mission } from '@/entities/mission/model/mission'
 import DeleteButton from '@/components/atoms/DeleteButton'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 
 type ScheduledMissionInfoModalProps = Readonly<{
   getMissions: () => void
@@ -62,7 +62,7 @@ export default function ScheduledMissionInfoModal({
 
   return (
     <Modal
-      animationType="fade"
+      animationType='fade'
       visible={isMissionInfoVisible}
       transparent={true}
       onRequestClose={closeMissionInfoModal}
@@ -96,8 +96,8 @@ export default function ScheduledMissionInfoModal({
 
             <View>
               <View style={{ flexDirection: 'row', gap: 8 }}>
-                <DeleteButton text="삭제하기" onPress={handleDeleteMission} />
-                <CancelButton text="닫기" onPress={closeMissionInfoModal} />
+                <DeleteButton text='삭제하기' onPress={handleDeleteMission} />
+                <CancelButton text='닫기' onPress={closeMissionInfoModal} />
               </View>
             </View>
           </ScrollView>

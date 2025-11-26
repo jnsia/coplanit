@@ -5,7 +5,7 @@ import { router } from 'expo-router'
 import { useCurrentUser } from '@/features/auth/model/use-current-user'
 import { useSignOut } from '@/features/auth/model/auth-queries'
 import { useTheme } from '@/lib/ThemeProvider'
-import { spacing, fontSize, radius, colors as tokenColors } from '@/constants/tokens'
+import { spacing, fontSize, radius, colors as tokenColors } from '@/shared/constants/tokens'
 import Card from '@/components/atoms/Card'
 import EditNameModal from '@/features/user/ui/EditNameModal'
 
@@ -36,8 +36,10 @@ export default function SettingScreen() {
         {/* User Info */}
         <Card onPress={() => setIsEditNameModalVisible(true)}>
           <View style={styles.userInfo}>
-            <FontAwesome name="user-circle" size={48} color={colors.text.tertiary} />
-            <Text style={[styles.userName, { color: colors.text.primary }]}>{user.nickname || '사용자'}</Text>
+            <FontAwesome name='user-circle' size={48} color={colors.text.tertiary} />
+            <Text style={[styles.userName, { color: colors.text.primary }]}>
+              {user.nickname || '사용자'}
+            </Text>
             <Text style={[styles.userEmail, { color: colors.text.tertiary }]}>{user.email}</Text>
             <Text style={[styles.editHint, { color: colors.text.tertiary }]}>탭하여 이름 변경</Text>
           </View>
@@ -49,16 +51,23 @@ export default function SettingScreen() {
 
           {/* Theme Toggle */}
           <Pressable
-            style={[styles.settingItem, { backgroundColor: colors.background.primary, borderColor: colors.border.primary }]}
+            style={[
+              styles.settingItem,
+              { backgroundColor: colors.background.primary, borderColor: colors.border.primary },
+            ]}
             onPress={toggleTheme}
           >
             <View style={styles.settingLeft}>
-              <FontAwesome name={theme === 'light' ? 'sun-o' : 'moon-o'} size={20} color={colors.text.primary} />
+              <FontAwesome
+                name={theme === 'light' ? 'sun-o' : 'moon-o'}
+                size={20}
+                color={colors.text.primary}
+              />
               <Text style={[styles.settingText, { color: colors.text.primary }]}>
                 {theme === 'light' ? '라이트 모드' : '다크 모드'}
               </Text>
             </View>
-            <FontAwesome name="chevron-right" size={16} color={colors.text.tertiary} />
+            <FontAwesome name='chevron-right' size={16} color={colors.text.tertiary} />
           </Pressable>
         </View>
 
@@ -67,12 +76,17 @@ export default function SettingScreen() {
           <Text style={[styles.sectionTitle, { color: colors.text.secondary }]}>계정</Text>
 
           <Pressable
-            style={[styles.settingItem, { backgroundColor: colors.background.primary, borderColor: colors.border.primary }]}
+            style={[
+              styles.settingItem,
+              { backgroundColor: colors.background.primary, borderColor: colors.border.primary },
+            ]}
             onPress={handleLogout}
           >
             <View style={styles.settingLeft}>
-              <FontAwesome name="sign-out" size={20} color={tokenColors.semantic.error} />
-              <Text style={[styles.settingText, { color: tokenColors.semantic.error }]}>로그아웃</Text>
+              <FontAwesome name='sign-out' size={20} color={tokenColors.semantic.error} />
+              <Text style={[styles.settingText, { color: tokenColors.semantic.error }]}>
+                로그아웃
+              </Text>
             </View>
           </Pressable>
         </View>

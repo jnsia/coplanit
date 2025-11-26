@@ -1,5 +1,5 @@
 import { View, Pressable, StyleSheet } from 'react-native'
-import { spacing, radius, shadow } from '@/constants/tokens'
+import { spacing, radius, shadow } from '@/shared/constants/tokens'
 import { useTheme } from '@/lib/ThemeProvider'
 import type { ReactNode } from 'react'
 
@@ -10,7 +10,12 @@ type CardProps = Readonly<{
   noPadding?: boolean
 }>
 
-export default function Card({ children, onPress, padding = 'size16', noPadding = false }: CardProps) {
+export default function Card({
+  children,
+  onPress,
+  padding = 'size16',
+  noPadding = false,
+}: CardProps) {
   const { colors } = useTheme()
 
   const cardStyles = [
@@ -22,7 +27,10 @@ export default function Card({ children, onPress, padding = 'size16', noPadding 
 
   if (onPress) {
     return (
-      <Pressable style={({ pressed }) => [...cardStyles, pressed && styles.pressed]} onPress={onPress}>
+      <Pressable
+        style={({ pressed }) => [...cardStyles, pressed && styles.pressed]}
+        onPress={onPress}
+      >
         {children}
       </Pressable>
     )

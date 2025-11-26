@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Alert } from 'react-native'
 import Modal from '@/components/molecules/Modal'
 import Button from '@/components/atoms/Button'
-import { spacing, fontSize } from '@/constants/tokens'
+import { spacing, fontSize } from '@/shared/constants/tokens'
 import { useTheme } from '@/lib/ThemeProvider'
 import { updateUserNickname } from '@/entities/user/api/user.api'
 
@@ -14,7 +14,13 @@ type EditNameModalProps = Readonly<{
   onSuccess: () => void
 }>
 
-export default function EditNameModal({ visible, currentName, userId, onClose, onSuccess }: EditNameModalProps) {
+export default function EditNameModal({
+  visible,
+  currentName,
+  userId,
+  onClose,
+  onSuccess,
+}: EditNameModalProps) {
   const [name, setName] = useState(currentName)
   const [isLoading, setIsLoading] = useState(false)
   const { colors } = useTheme()
@@ -40,7 +46,7 @@ export default function EditNameModal({ visible, currentName, userId, onClose, o
   }
 
   return (
-    <Modal visible={visible} onClose={onClose} title="이름 변경">
+    <Modal visible={visible} onClose={onClose} title='이름 변경'>
       <View style={styles.content}>
         <Text style={[styles.label, { color: colors.text.secondary }]}>새 이름</Text>
         <TextInput
@@ -54,14 +60,14 @@ export default function EditNameModal({ visible, currentName, userId, onClose, o
           ]}
           value={name}
           onChangeText={setName}
-          placeholder="이름을 입력하세요"
+          placeholder='이름을 입력하세요'
           placeholderTextColor={colors.text.tertiary}
           autoFocus
         />
 
         <View style={styles.buttons}>
-          <Button title="취소" variant="outline" onPress={onClose} />
-          <Button title="저장" onPress={handleSave} disabled={isLoading} loading={isLoading} />
+          <Button title='취소' variant='outline' onPress={onClose} />
+          <Button title='저장' onPress={handleSave} disabled={isLoading} loading={isLoading} />
         </View>
       </View>
     </Modal>

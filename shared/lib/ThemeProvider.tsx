@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { colors as tokenColors } from '@/constants/tokens'
+import { colors as tokenColors } from '@/shared/constants/tokens'
 import type { ReactNode } from 'react'
 
 export type Theme = 'light' | 'dark'

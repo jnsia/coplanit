@@ -1,9 +1,9 @@
 import { View, Text, Modal, StyleSheet, ScrollView, TouchableWithoutFeedback } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import theme from '@/constants/theme'
+import theme from '@/shared/constants/theme'
 import { failedMission } from '@/entities/mission/model/mission'
 import CancelButton from '@/components/atoms/CancelButton'
-import { fonts } from '@/constants/fonts'
+import { fonts } from '@/shared/constants/fonts'
 
 export default function CommonModal({
   isVisible,
@@ -13,7 +13,7 @@ export default function CommonModal({
   closeModal: () => void
 }) {
   return (
-    <Modal animationType="fade" visible={isVisible} transparent={true} onRequestClose={closeModal}>
+    <Modal animationType='fade' visible={isVisible} transparent={true} onRequestClose={closeModal}>
       <TouchableWithoutFeedback onPress={closeModal}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalView}>
@@ -22,7 +22,7 @@ export default function CommonModal({
               <Text style={styles.lostCoinInfoText}>Common Modal Body</Text>
               <Text style={styles.lostCoinInfoText}>Common Modal Content</Text>
             </View>
-            <CancelButton text="확인" onPress={closeModal} />
+            <CancelButton text='확인' onPress={closeModal} />
           </View>
         </View>
       </TouchableWithoutFeedback>

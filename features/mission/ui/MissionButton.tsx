@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
-import theme from '@/constants/theme'
+import theme from '@/shared/constants/theme'
 import { mission } from '@/entities/mission/model/mission'
 import Badge from '@/components/atoms/Badge'
-import { colors } from '@/constants/colors'
-import { fonts } from '@/constants/fonts'
+import { colors } from '@/shared/constants/colors'
+import { fonts } from '@/shared/constants/fonts'
 
 const typeLabels: Record<string, string> = {
   special: '특별',
